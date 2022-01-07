@@ -1,0 +1,24 @@
+import requests
+import lxml
+import bs4
+
+Fav_author = 'Dr. Seuss'
+
+i = 1
+quotes = []
+
+while True:
+    
+    page = requests.get("https://quotes.toscrape.com/page/{}/".format(i), verify = False)
+    soup = bs4.BeautifulSoup(page.text,"lxml")
+    quote_info = soup.select(".quote")
+    if quote_info == []:
+        break
+        
+    for info in quote_info:
+        if info.select(".author")[0].text == Fav_author:
+            quotes.append(info.select(".text")[0].text)
+    
+    i = i + 1
+    
+quotes
